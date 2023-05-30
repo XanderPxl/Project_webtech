@@ -3,19 +3,19 @@
 
 <style>
 table {
-  font-family: arial, sans-serif;
+  font-family: arial, sans-serif; <!-- general table settings -->
   border-collapse: collapse;
   width: 100%;
 }
 
 td, th {
-  border: 1px solid #dddddd;
+  border: 1px solid #dddddd; <!-- general settings for the collomns and the rows -->
   text-align: left;
   padding: 8px;
 }
 
 tr:nth-child(even) {
-  background-color: #ffdddd;
+  background-color: #ffdddd; <!-- background of the even number rows -->
 }
 </style>
 
@@ -31,12 +31,12 @@ tr:nth-child(even) {
 
 <table>
   <tr>
-    <th>Date</th>
+    <th>Date</th>					<!-- the names of the collomns are set-->
     <th>CPU temperature (°C)</th>
   </tr>
   <tr>
-    <td ID = "date1"></td>
-    <td ID = "value1"> °C</td>
+    <td ID = "date1"></td>			<!--the date of the measured temperature will be added here using a javascript -->
+    <td ID = "value1"> °C</td>		<!-- the temperature will be added here in the same way as the date of the measured temperature-->
   </tr>
   <tr>
     <td ID = "date2"></td>
