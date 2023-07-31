@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
    
+<head>
+	<meta http-equiv = "refresh" content = "10">
+</head>
+   
+   
 <style>
 table {
   font-family: arial, sans-serif; <!-- general table settings -->
@@ -27,7 +32,7 @@ tr:nth-child(even) {
 <h1>This is the live data located from the server that was received from the pinq board</h1>
 
 
-<p id="demo"></p>
+
 
 <table>
   <tr>
@@ -56,6 +61,34 @@ tr:nth-child(even) {
   </tr>
 
 </table>
+
+
+<script>
+
+const element = document.getElementById("date1"); // )this works
+element.innerHTML = "12";						  // )							
+
+//////////this does not /////////////////
+
+	// Create an XMLHttpRequest object
+	const xhttp = new XMLHttpRequest();
+
+	// Define a callback function
+	xhttp.onload = function() {
+	  // Here you can use the Data
+	  element.innerHTML = this.responseText;
+	}
+
+	// Send a request
+	xhttp.open("GET", "C:\Program Files\msys2\home\Xande\2de_zitCP2\Project_webtech\serverReceiver.php");
+	xhttp.send();
+	
+/////////////////////////////////////////
+
+
+</script>
+
+
 
 </body>
 </html>
