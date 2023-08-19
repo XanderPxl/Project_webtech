@@ -1,93 +1,85 @@
 <!DOCTYPE html>
 <html>
-   
 <head>
-	<meta http-equiv = "refresh" content = "10">
+  <!-- <meta http-equiv="refresh" content="10"> -->
+  <style>
+    table {
+      font-family: arial, sans-serif; /* general table settings */
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td, th {
+      border: 1px solid #dddddd; /* general settings for the columns and the rows */
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #ffdddd; /* background of the even number rows */
+    }
+  </style>
 </head>
-   
-   
-<style>
-table {
-  font-family: arial, sans-serif; <!-- general table settings -->
-  border-collapse: collapse;
-  width: 100%;
-}
-
-td, th {
-  border: 1px solid #dddddd; <!-- general settings for the collomns and the rows -->
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {
-  background-color: #ffdddd; <!-- background of the even number rows -->
-}
-</style>
-
-
 <body>
+  <h1>This is the live data located from the server that was received from the pinq board</h1>
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>CPU temperature (°C)</th>
+    </tr>
+    <tr>
+      <td ID="date1">data</td>
+      <td ID="value1"> °C</td>
+    </tr>
+    <tr>
+      <td ID="date2">data</td>
+      <td ID="value2"> °C</td>
+    </tr>
+    <tr>
+      <td ID="date3">data</td>
+      <td ID="value3"> °C</td>
+    </tr>
+    <tr>
+      <td ID="date4">data</td>
+      <td ID="value4"> °C</td>
+    </tr>
+    <tr>
+      <td ID="date5">data</td>
+      <td ID="value5"> °C</td>
+    </tr>
+    <!-- You can add more rows as needed... -->
+  </table>
+  <button type = "button" onclick = "loadDoc()">Get data</button>
+
+
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> -->
+  <script>
+  function loadDoc() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+                document.getElementById("date1").innerHTML = this.responseText;
+                }
+
+                xhttp.open("GET", "https://server-of-xander.pxl.bjth.xyz/data.php");
+                xhttp.send();
+
+        }
 
 
 
-<h1>This is the live data located from the server that was received from the pinq board</h1>
 
 
+  /*
+    $(document).ready(function(){
+      $("button").click(function(){
+        $.get("https://169.254.30.112/test.txt", function(data){
+          $("#date1").html(data);
 
-
-<table>
-  <tr>
-    <th>Date</th>					<!-- the names of the collomns are set-->
-    <th>CPU temperature (°C)</th>
-  </tr>
-  <tr>
-    <td ID = "date1"></td>			<!--the date of the measured temperature will be added here using a javascript -->
-    <td ID = "value1"> °C</td>		<!-- the temperature will be added here in the same way as the date of the measured temperature-->
-  </tr>
-  <tr>
-    <td ID = "date2"></td>
-    <td ID = "value2"> °C</td>
-  </tr>
-  <tr>
-    <td ID = "date3"></td>
-    <td ID = "value3"> °C</td>
-  </tr>
-  <tr>
-    <td ID = "date4"></td>
-    <td ID = "value4"> °C</td>
-  </tr>
-  <tr>
-    <td ID = "date5"></td>
-    <td ID = "value5"> °C</td>
-  </tr>
-
-</table>
-
-
-<script>
-
-const element = document.getElementById("date1"); // )this works
-element.innerHTML = "12";						  // )							
-
-//////////this does not /////////////////
-
-	// Create an XMLHttpRequest object
-	const xhttp = new XMLHttpRequest();
-
-	// Define a callback function
-	xhttp.onload = function() {
-	  // Here you can use the Data
-	  element.innerHTML = this.responseText;
-	}
-
-	// Send a request
-	xhttp.open("GET", "C:\Program Files\msys2\home\Xande\2de_zitCP2\Project_webtech\serverReceiver.php");
-	xhttp.send();
-	
-/////////////////////////////////////////
-
-
-</script>
-
+        });
+      });
+    });
+*/
+  </script>
 
 
 </body>
