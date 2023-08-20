@@ -1,0 +1,5 @@
+https://server-of-xander.pxl.bjth.xyz {
+    root * /var/www/html
+    php_fastcgi unix//run/php-fpm/www.sock
+    file_server browse
+}

@@ -50,24 +50,21 @@
     <!-- You can add more rows as needed... -->
   </table>
   <button type = "button" onclick = "loadDoc()">Get data</button>
-
+  <a href="https://server-of-xander.pxl.bjth.xyz/about_page.html"> Visit my aboutpage</a>
 
   <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> -->
   <script>
-  function loadDoc() {
+
+        function loadDoc() {
         const xhttp = new XMLHttpRequest();
         xhttp.onload = function() {
-                document.getElementById("date1").innerHTML = this.responseText;
-                }
+                const newValue = this.responseText;
+                document.getElementById("value1").innerHTML = newValue + " °C";
+        };
 
-                xhttp.open("GET", "https://server-of-xander.pxl.bjth.xyz/data.php");
-                xhttp.send();
-
+        xhttp.open("GET", "https://server-of-xander.pxl.bjth.xyz/data.txt");
+        xhttp.send();
         }
-
-
-
-
 
   /*
     $(document).ready(function(){
