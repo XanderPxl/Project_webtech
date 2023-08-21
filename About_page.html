@@ -5,14 +5,24 @@
 <style>
 
 body {
-
+	vertical-align: middle;
+	display: table-cell;
+	//background-image: url("https://img.webtech360.com/imagesupdate1/image-webtech360-com-3256539.jpg");
+	background-color: lightgrey;
 	border-left: 2px solid;		/*both the left and right borders are defined to be solid and 2 pixels wide in the body*/
-	
-
 	border-right: 2px solid;
 	
 }
-
+html, body {
+    height: 100%;
+}
+html {
+    display: table;
+    margin: auto;
+}
+h1, pre{
+	text-align: center;
+}
 </style>
 
 </head>
@@ -29,15 +39,90 @@ body {
  -->
 <pre>This project aims to design a fully functional <a href ="https://server-of-xander.pxl.bjth.xyz">webpage</a>.
 The webpage displaying the live data will gather these from the postgresql database located on the server.
-A headless hardware device will push data to the database using php.
+A headless hardware device will push this data to the database using 2 php programs. 
 
 
+
+
+
+<h1></h1>
+
+The first program (as seen in the code below), will calculate the temperature of the main chip on the pynq. 
+After which it will creat a json package to send it to the second php program that is located on the server using curl.<br>
+
+<p>#!/usr/bin/env bash
+
+set -euo pipefail
+
+. /etc/post-temperature.conf
+
+TEMP_RAW=$(cat '/sys/bus/iio/devices/iio:device0/in_temp0_raw')
+TEMP_SCALE=$(cat '/sys/bus/iio/devices/iio:device0/in_temp0_scale')
+TEMP_OFFSET=$(cat '/sys/bus/iio/devices/iio:device0/in_temp0_offset')
+
+TEMP=$(echo "scale=1; (${TEMP_RAW} - ${TEMP_OFFSET}) / ${TEMP_SCALE}" | bc)
+JSON_PAYLOAD=$(jq -n --arg temp "$TEMP" '{"temperature":$temp}')
+
+printf 'Posting %s to %s\n' "${JSON_PAYLOAD}" "${STUDENT_SERVER_URI}"
+
+curl "${STUDENT_SERVER_URI}" \
+  --header "Content-Type: application/json" \
+  --data "${JSON_PAYLOAD}"
+</p>
+
+
+
+
+
+
+
+The second php program (see the code below once again) will receive the data.
+After that it will create a connection with my postgresql database to place the 
+received data in a table. 
+<p>
+$body = file_get_contents("php://input");
+$data = json_decode($body, true);
+
+if (!$data)
+{
+        die("Error decoding JSON: " . json_last_error_msg());
+}
+
+echo "JSON Payload: " .print_r($data, true) . "<br>";
+
+$dbconn = pg_connect("host=localhost dbname=dbxander user=xander password=Xander8963");
+
+
+if (!$dbconn)
+{
+        die("Connection failed: " . pg_last_error());
+}
+
+$temperature = $data['temperature'];
+
+echo "Temperature: " . $temperature ."<br>";
+
+$query = "INSERT INTO temperature_data (temperature) VALUES ($temperature)";
+$result = pg_query($dbconn, $query);
+
+if (!$result)
+{
+        die("Error in SQL query: " . pg_last_error());
+}
+
+pg_close($dbconn);
+
+
+echo "Data inserted successfully!";
+
+
+</p>
 
 <!-- *** This is not finished yet! *** -->
 
 The projects main core is the caddy api. It takes care of providing 
-the default live webpage together with providing aditional programs. The php program that retreives the data from the headless
-device
+the default live webpage together with the providing aditional programs. 
+
 
 
 
